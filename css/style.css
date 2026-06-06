@@ -195,3 +195,33 @@ form {
         }
     }
 }
+
+/* =========================================
+   REQUIREMENT: CSS3 Transitions/Animations
+   ========================================= */
+
+/* Hide all views by default */
+.view {
+    display: none;
+}
+
+/* When a view has the 'active' class, display it and run the animation */
+.view.active {
+    display: block;
+    /* animation: name duration timing-function fill-mode */
+    animation: fadeInView 0.5s ease-out forwards;
+}
+
+/* Define the keyframes for smooth fade-in and slide-up effect */
+@keyframes fadeInView {
+    0% {
+        opacity: 0;
+        /* Start slightly below its final position */
+        transform: translateY(15px); 
+    }
+    100% {
+        opacity: 1;
+        /* End exactly at its normal position */
+        transform: translateY(0);    
+    }
+}
