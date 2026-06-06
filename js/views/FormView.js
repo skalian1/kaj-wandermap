@@ -85,7 +85,19 @@ export const FormView = {
             // Update map pins immediately after saving a new trip
             MapView.renderPins();
 
-            alert('Trip successfully saved!');
+            const toast = document.getElementById('toast-notification');
+            if (toast) {
+                // Dynamically inject the destination title into the feedback string
+                toast.textContent = `Trip to "${title}" successfully saved!`;
+                // Add the class to trigger CSS transition slide up
+                toast.classList.add('show');
+
+                // Automatically hide the toast after 3 seconds using asynchronous Web API
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
             Router.navigate('');
         });
     }

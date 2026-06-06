@@ -446,3 +446,29 @@ article#view-detail {
         }
     }
 }
+
+/* ==========================================================================
+   9. Toast Notification System
+   ========================================================================== */
+.toast {
+    position: fixed;
+    bottom: -60px; /* Hidden below the viewport by default */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    background-color: var(--secondary-color); /* Green success color */
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 9999; /* Ensure it stays on top of map and everything else */
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+    opacity: 0;
+    pointer-events: none; /* Do not block clicks underneath when hidden */
+}
+
+/* Class to trigger the appearance */
+.toast.show {
+    bottom: 30px; /* Slide up into position */
+    opacity: 1;
+}
