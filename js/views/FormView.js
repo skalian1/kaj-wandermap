@@ -4,6 +4,7 @@ import { WanderMap } from '../models/Trip.js';
 import { StorageService } from '../services/StorageService.js';
 import { DashboardView } from './DashboardView.js';
 import { Router } from '../services/Router.js';
+import { MapView } from './MapView.js';
 
 export const FormView = {
     init: function() {
@@ -75,7 +76,10 @@ export const FormView = {
             
             // Update the dashboard list immediately after saving
             DashboardView.render();
-            
+
+            // Update map pins immediately after saving a new trip
+            MapView.renderPins();
+
             alert('Trip successfully saved!');
             Router.navigate('');
         });
