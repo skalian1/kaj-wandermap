@@ -1,22 +1,32 @@
-// js/services/Router.js
-// REQUIREMENT: Functional history (History API)
+/**
+ * @fileoverview Single Page Application (SPA) routing service.
+ * Satisfies KAJ requirement: Functional history (History API).
+ */
 
 import { DetailView } from '../views/DetailView.js';
 
+/**
+ * Router service managing application navigation and view state.
+ * Handles URL hash changes without page reloads using the native History API.
+ * @namespace
+ */
 export const Router = {
+    /**
+     * Initializes the routing service.
+     * Binds event listeners for browser navigation (Back/Forward) and header UI buttons.
+     * Evaluates the initial URL to render the correct view on startup.
+     */
     init: function() {
-        // Listen to browser's Back/Forward buttons (popstate event)
         window.addEventListener('popstate', () => {
             this.updateView(window.location.hash);
         });
 
-        // Attach click events to header navigation buttons
         const navDashboard = document.getElementById('nav-dashboard');
         const navNewTrip = document.getElementById('nav-new-trip');
 
         if (navDashboard) {
             navDashboard.addEventListener('click', () => {
-                this.navigate(''); // Empty string means root/dashboard
+                this.navigate(''); 
             });
         }
 
@@ -26,43 +36,36 @@ export const Router = {
             });
         }
 
-        // Handle the initial page load based on current URL hash
         this.updateView(window.location.hash);
     },
 
     /**
-     * Changes the URL without reloading the page and updates the view.
-     * @param {string} hash - The target hash (e.g., '#new')
+     * Updates the browser URL history and renders the corresponding view.
+     * @param {string} hash - The target URL hash (e.g., '#new', '#detail-123', or empty string).
      */
     navigate: function(hash) {
-        // history.pushState(stateObject, title, url)
-        // We use hash fallback to ensure clean URL if hash is empty
+        // Fallback to the current pathname if the hash is empty to maintain clean URLs
         history.pushState(null, '', hash || window.location.pathname);
-        
-        // Update the visible UI based on the new hash
         this.updateView(hash);
     },
 
     /**
-     * Toggles the 'active' class on view containers based on the hash.
-     * @param {string} hash - The current URL hash
+     * Toggles the visibility of DOM view containers based on the active route.
+     * Delegates data rendering to specific view controllers when necessary.
+     * @param {string} hash - The current URL hash to evaluate.
      */
     updateView: function(hash) {
-        // 1. Hide all views by removing 'active' class
         document.querySelectorAll('.view').forEach(view => {
             view.classList.remove('active');
         });
 
-        // 2. Determine which view to show based on hash
         if (hash === '#new') {
             document.getElementById('view-form').classList.add('active');
         } else if (hash.startsWith('#detail-')) {
             const tripId = hash.replace('#detail-', '');
             DetailView.render(tripId);
             document.getElementById('view-detail').classList.add('active');
-            // Logic for loading specific trip details will be added later
         } else {
-            // Default fallback is always the dashboard
             document.getElementById('view-dashboard').classList.add('active');
         }
     }

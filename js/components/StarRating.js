@@ -1,33 +1,49 @@
-// js/components/StarRating.js
-// REQUIREMENT: Web Component (Custom HTML Element)
+/**
+ * @fileoverview Custom Web Component providing interactive or read-only star rating functionality.
+ * Satisfies KAJ requirement: Web Component (Custom HTML Element).
+ */
 
 export class StarRating extends HTMLElement {
+    /**
+     * Creates an instance of StarRating.
+     * Attaches the open Shadow DOM and initializes local state.
+     */
     constructor() {
         super();
-        // Attach Shadow DOM to encapsulate styles and markup
         this.attachShadow({ mode: 'open' });
         this.stars = [];
-        this._value = 0; // Default rating
+        this._value = 0;
     }
 
-    // Called when the element is inserted into the DOM
+    /**
+     * Lifecycle callback triggered automatically when the element is appended to the DOM.
+     */
     connectedCallback() {
         this.render();
         this.setupEvents();
     }
 
-    // Getter and setter to easily read/write the rating value from other scripts
+    /**
+     * Gets the current rating value.
+     * @returns {number} Current rating score (0 to 5).
+     */
     get value() {
         return this._value;
     }
 
+    /**
+     * Sets the rating value and refreshes the visual state of the component.
+     * @param {number} v - The new rating score.
+     */
     set value(v) {
         this._value = v;
         this.updateStars();
     }
 
+    /**
+     * Renders the component's HTML markup and encapsulates internal styles inside the Shadow DOM.
+     */
     render() {
-        // We define styles directly inside the Shadow DOM so they don't leak out
         this.shadowRoot.innerHTML = `
             <style>
                 .star-container {
@@ -39,7 +55,7 @@ export class StarRating extends HTMLElement {
                 .star {
                     transition: color 0.2s;
                 }
-                /* Interactive hover effects only if NOT readonly */
+                /* Interactive hover and state rules applied only if not read-only */
                 :host(:not([readonly])) .star-container {
                     cursor: pointer;
                 }
@@ -47,7 +63,7 @@ export class StarRating extends HTMLElement {
                     color: #ccc !important;
                 }
                 :host(:not([readonly])) .star-container:hover .star {
-                    color: #f1c40f; /* Gold color on hover */
+                    color: #f1c40f;
                 }
                 .star.active {
                     color: #f1c40f;
@@ -61,26 +77,35 @@ export class StarRating extends HTMLElement {
                 <span class="star" data-value="5">★</span>
             </div>
         `;
+        
+        // Cache internal DOM element references after rendering
         this.stars = this.shadowRoot.querySelectorAll('.star');
         this.updateStars();
     }
 
+    /**
+     * Binds click event listeners to the star elements for interactive selection.
+     * Aborts execution if the component is marked as read-only.
+     */
     setupEvents() {
-        // If the component has a 'readonly' attribute, we don't attach click listeners
         if (this.hasAttribute('readonly')) return;
 
         this.stars.forEach(star => {
             star.addEventListener('click', (e) => {
-                // Update value when a star is clicked
-                this.value = parseInt(e.target.dataset.value);
+                // Best Practice: Always supply the radix parameter to parseInt
+                this.value = parseInt(e.target.dataset.value, 10);
             });
         });
     }
 
+    /**
+     * Toggles the active highlight class on stars according to the current numeric value.
+     */
     updateStars() {
-        // Highlight stars up to the current value
         this.stars.forEach(star => {
-            if (parseInt(star.dataset.value) <= this._value) {
+            const starValue = parseInt(star.dataset.value, 10);
+            
+            if (starValue <= this._value) {
                 star.classList.add('active');
             } else {
                 star.classList.remove('active');
@@ -89,5 +114,5 @@ export class StarRating extends HTMLElement {
     }
 }
 
-// Register the component with the browser so we can use <star-rating> tag
+// Register the custom element definition within the global customElements registry
 customElements.define('star-rating', StarRating);

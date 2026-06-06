@@ -1,5 +1,6 @@
 /**
- * Main application entry point.
+ * @fileoverview Main application entry point.
+ * Bootstraps the WanderMap SPA by initializing views, components, map services, and routing.
  */
 
 import { FormView } from './views/FormView.js';
@@ -12,14 +13,13 @@ import { StarRating } from './components/StarRating.js';
 document.addEventListener('DOMContentLoaded', () => {
     console.log("WanderMap: Modular architecture initialized.");
     
-    // Initialize views and navigation
     FormView.init();
     DetailView.init();
     DashboardView.render();
     
-    // Initialize the map
     MapView.init();
     
-    // Initialize the Router last
+    // The Router must be initialized last to correctly evaluate the startup URL hash
+    // against the newly constructed DOM and view states.
     Router.init();
 });

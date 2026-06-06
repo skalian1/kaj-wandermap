@@ -7,25 +7,27 @@ WanderMap is an interactive Single Page Application (SPA) designed as a personal
 **Repository URL:** [https://github.com/skalian1/kaj-wandermap]
 
 ## Architecture
-The application is built using vanilla web technologies (HTML5, CSS3, JavaScript ES6+) without any heavy frameworks (like React or Angular) to demonstrate a deep understanding of core web APIs. It utilizes a modular architecture dividing the logic into Models, Views, and Services to prevent spaghetti code.
+The application is built using vanilla web technologies (HTML5, CSS3, JavaScript ES6+) without any heavy frameworks (like React or Angular). It utilizes a modular architecture dividing the logic into Models, Views, and Services to prevent spaghetti code.
 
 ---
 
 ## Features & Limitations
 
 ### Core Functionality
-* **Trip Logging:** Users can create new trip records containing a title, date, textual notes, and a 1-5 star rating.
-* **Geolocation:** One-click fetching of the user's current GPS coordinates using the browser's Geolocation API.
+* **Trip Logging:** Users can log new trips by providing a title, date, textual notes, and a 1-5 star rating.
+* **Geolocation:** One-click fetching of the user's current GPS coordinates via the browser's Geolocation API.
+* **Trip Soundtrack:** Users can attach an external audio URL to their trip records, playing or pausing the soundtrack directly from the detail view via a custom JS interface.
 * **Interactive Map:** Trips with valid coordinates are automatically plotted as clickable pins on an embedded Leaflet map (OpenStreetMap).
-* **Trip Dashboard & Details:** Users can view a list of all past trips and click on any entry (or map pin) to view a detailed, read-only summary of the trip.
-* **Persistent Storage:** All data is saved automatically to the browser's LocalStorage.
-* **SPA Navigation:** Seamless transitions between views (Dashboard, Form, Detail) using the History API, fully supporting browser Back/Forward buttons.
+* **Trip Dashboard & Details:** Users can browse a list of all past trips and click any entry (or map pin) to open a detailed, read-only summary.
+* **SPA Navigation:** Seamless transitions between views (Dashboard, Form, Detail) using the History API, with full support for the browser's Back/Forward buttons.
+* **Modern UX & Notifications:** Non-blocking, animated toast notifications provide smooth user feedback (e.g., upon saving a trip) instead of intrusive browser alerts.
+* **Persistent Storage:** All data is saved automatically to the browser's LocalStorage, ensuring records persist between sessions.
 
 ### Known Limitations
 * **Local Data Only:** Data is bound to the specific browser and device. There is no backend synchronization or cloud backup.
-* **No Geocoding:** Users cannot search for a destination by address. Location is obtained exclusively via GPS or left empty.
-* **Map Pin Overlap:** Multiple trips recorded at the exact same GPS coordinates will render pins on top of each other (no marker clustering implemented).
-* **No Media Uploads:** The application does not support uploading photos or videos for trips.
+* **No Geocoding:** Users cannot search for a destination by typing an address. Location is obtained exclusively via GPS or left empty.
+* **Map Pin Overlap:** Multiple trips recorded at the exact same GPS coordinates render pins directly on top of each other (marker clustering is not implemented).
+* **Limited Media Uploads:** The application does not support direct file uploads for photos, videos, or local MP3 files (audio is linked via external URLs only to prevent exceeding LocalStorage limits).
 
 ---
 
@@ -38,7 +40,7 @@ The following table explicitly maps the KAJ course requirements to their impleme
 | **HTML5** | HTML5 Validity | ✅ Implemented | Valid `<!DOCTYPE html>` structure (`index.html`). |
 | **HTML5** | Semantic Tags | ✅ Implemented | Used `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>` (`index.html`). |
 | **HTML5** | SVG / Canvas Graphics | ❌ Not Implemented | - |
-| **HTML5** | Audio / Video Media | ❌ Not Implemented | - |
+| **HTML5** | Audio / Video Media | ✅ Implemented | Embedded `<audio>` element for trip soundtracks (`index.html`). |
 | **HTML5** | Form Elements | ✅ Implemented | Native validation (`required`), `autofocus`, `placeholder`, `type="date"` (`index.html`). |
 | **CSS3** | Advanced Selectors | ✅ Implemented | `nth-child(even)`, direct child `> label`, attribute selectors (`css/style.css`). |
 | **CSS3** | 2D/3D Transformations | ✅ Implemented | Hover states use `transform: translateX` and `translateY` (`css/style.css`). |
@@ -49,7 +51,7 @@ The following table explicitly maps the KAJ course requirements to their impleme
 | **JavaScript** | JS Framework/Library | ❌ Not Implemented | Vanilla JS used for core logic (Leaflet used only for maps, not UI rendering). |
 | **JavaScript** | Advanced JS APIs | ✅ Implemented | LocalStorage API (`StorageService.js`) and Geolocation API (`FormView.js`). |
 | **JavaScript** | Functional History | ✅ Implemented | History API (`pushState`, `popstate`) used for SPA routing (`js/services/Router.js`). |
-| **JavaScript** | Media API Control | ❌ Not Implemented | - |
+| **JavaScript** | Media API Control | ✅ Implemented | Custom play/pause logic checking `.paused` state and utilizing `.play()` Promise (`js/views/DetailView.js`).
 | **JavaScript** | Offline Application | ❌ Not Implemented | Data persists locally, but no Service Workers/Manifest for true offline capability. |
 | **JavaScript** | SVG Manipulation via JS | ❌ Not Implemented | - |
 | **JavaScript** | Web Component | ✅ Implemented | Custom `<star-rating>` element utilizing Shadow DOM (`js/components/StarRating.js`). |

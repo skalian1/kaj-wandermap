@@ -1,20 +1,37 @@
-// js/views/MapView.js
-// REQUIREMENT: External map integration & advanced API usage
+/**
+ * @fileoverview View controller for rendering the interactive map using Leaflet.js.
+ * Satisfies KAJ requirement: External map integration & advanced API usage.
+ */
 
 import { StorageService } from '../services/StorageService.js';
 
+/**
+ * View module responsible for map initialization, tile rendering, and plotting markers.
+ * @namespace
+ */
 export const MapView = {
+    /**
+     * Holds the active Leaflet map instance.
+     * @type {Object|null}
+     */
     map: null,
-    // Layer group to keep track of all active markers on the map
+
+    /**
+     * Layer group to efficiently track and manage all active markers on the map.
+     * @type {Object|null}
+     */
     markersGroup: null, 
 
+    /**
+     * Initializes the map container, sets the default geographical view,
+     * loads the OpenStreetMap tile layer, and performs the initial pin render.
+     */
     init: function() {
         const mapContainer = document.getElementById('map-container');
         if (!mapContainer) return;
 
         mapContainer.innerHTML = '';
 
-        // Initialize Leaflet map
         this.map = L.map('map-container').setView([49.8, 15.4], 4);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -22,32 +39,27 @@ export const MapView = {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(this.map);
 
-        // Initialize the layer group and add it to the map
         this.markersGroup = L.layerGroup().addTo(this.map);
 
-        // Render pins immediately on startup
         this.renderPins();
     },
 
     /**
-     * Fetches trips and renders markers on the map for trips with valid coordinates.
+     * Fetches trip data from storage and dynamically renders map markers
+     * for entities containing valid geographical coordinates.
      */
     renderPins: function() {
         if (!this.map || !this.markersGroup) return;
 
-        // Clear existing markers first to prevent duplication when a new trip is saved
+        // Clear existing markers to prevent visual duplication on UI re-renders
         this.markersGroup.clearLayers();
 
         const trips = StorageService.getAllTrips();
 
         trips.forEach(trip => {
-            // Check if the trip has valid coordinates using our OOP structural data
             if (trip.coords && trip.coords.lat && trip.coords.lng) {
-                // Create a standard Leaflet marker
                 const marker = L.marker([trip.coords.lat, trip.coords.lng]);
                 
-                // Bind a clickable popup window with trip information and a link to details
-                // Using our prototype method getFormattedDate()
                 marker.bindPopup(`
                     <div class="map-popup">
                         <strong>${trip.title}</strong><br>
@@ -55,7 +67,7 @@ export const MapView = {
                         <a href="#detail-${trip.id}">View details</a>
                     </div>
                 `);
-                // Add the marker to our managed group
+                
                 this.markersGroup.addLayer(marker);
             }
         });
