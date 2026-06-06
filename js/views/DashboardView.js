@@ -32,6 +32,10 @@ export const DashboardView = {
             // Save the ID into a data attribute so we can identify it later (for the detail view)
             li.dataset.id = trip.id;
 
+            li.addEventListener('click', () => {
+                window.location.hash = '#detail-' + trip.id;
+            });
+
             // Create strong element for the title
             const titleElement = document.createElement('strong');
             titleElement.textContent = trip.title;

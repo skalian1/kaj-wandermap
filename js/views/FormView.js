@@ -58,14 +58,18 @@ export const FormView = {
             const title = document.getElementById('trip-title').value;
             const date = document.getElementById('trip-date').value;
             const notes = document.getElementById('trip-notes').value;
+            const ratingElement = document.getElementById('trip-rating');
+            const rating = ratingElement ? ratingElement.value : 0;
             const lat = document.getElementById('trip-lat').value || null;
             const lng = document.getElementById('trip-lng').value || null;
 
-            const newTrip = new WanderMap.Models.Trip(title, date, notes, lat, lng);
+            const newTrip = new WanderMap.Models.Trip(title, date, notes, lat, lng, rating);
             StorageService.saveTrip(newTrip);
 
             form.reset();
 
+            if (ratingElement) ratingElement.value = 0;
+            
             if (btnLocation) {
                 btnLocation.innerText = 'Get My Location';
                 btnLocation.style.backgroundColor = '';

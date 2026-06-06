@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WanderMap: Travel Diary</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -45,6 +45,11 @@
                     <label for="trip-date">Date:</label>
                     <input type="date" id="trip-date" name="trip-date" required>
                 </div>
+
+                <div class="form-group">
+                    <label>Rating:</label>
+                    <star-rating id="trip-rating"></star-rating>
+                </div>
                 
                 <div class="form-group">
                     <label for="trip-notes">Notes:</label>
@@ -65,6 +70,7 @@
             <header>
                 <h2 id="detail-title">Trip Title</h2>
                 <p id="detail-date" class="meta-info">Date</p>
+                <star-rating id="detail-rating" readonly></star-rating>
             </header>
             <div id="detail-content">
                 <p id="detail-notes">Trip notes will appear here.</p>

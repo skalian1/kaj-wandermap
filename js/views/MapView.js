@@ -46,15 +46,15 @@ export const MapView = {
                 // Create a standard Leaflet marker
                 const marker = L.marker([trip.coords.lat, trip.coords.lng]);
                 
-                // Bind a clickable popup window with trip information
+                // Bind a clickable popup window with trip information and a link to details
                 // Using our prototype method getFormattedDate()
                 marker.bindPopup(`
                     <div class="map-popup">
                         <strong>${trip.title}</strong><br>
-                        <small>${trip.getFormattedDate()}</small>
+                        <small>${trip.getFormattedDate()}</small><br>
+                        <a href="#detail-${trip.id}">View details</a>
                     </div>
                 `);
-
                 // Add the marker to our managed group
                 this.markersGroup.addLayer(marker);
             }

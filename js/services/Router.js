@@ -1,6 +1,8 @@
 // js/services/Router.js
 // REQUIREMENT: Functional history (History API)
 
+import { DetailView } from '../views/DetailView.js';
+
 export const Router = {
     init: function() {
         // Listen to browser's Back/Forward buttons (popstate event)
@@ -55,6 +57,8 @@ export const Router = {
         if (hash === '#new') {
             document.getElementById('view-form').classList.add('active');
         } else if (hash.startsWith('#detail-')) {
+            const tripId = hash.replace('#detail-', '');
+            DetailView.render(tripId);
             document.getElementById('view-detail').classList.add('active');
             // Logic for loading specific trip details will be added later
         } else {
