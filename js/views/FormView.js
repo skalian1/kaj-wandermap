@@ -3,6 +3,7 @@
 import { WanderMap } from '../models/Trip.js';
 import { StorageService } from '../services/StorageService.js';
 import { DashboardView } from './DashboardView.js';
+import { Router } from '../services/Router.js';
 
 export const FormView = {
     init: function() {
@@ -76,6 +77,7 @@ export const FormView = {
             DashboardView.render();
             
             alert('Trip successfully saved!');
+            Router.navigate('');
         });
     }
 };

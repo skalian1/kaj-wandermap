@@ -4,13 +4,15 @@
 
 import { FormView } from './views/FormView.js';
 import { DashboardView } from './views/DashboardView.js';
+import { Router } from './services/Router.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("WanderMap: Modular architecture initialized.");
     
-    // Initialize views
+    // Initialize views and navigation
     FormView.init();
-    
-    // Render initial data
     DashboardView.render();
+    
+    // Initialize the Router last to handle the initial URL state correctly
+    Router.init();
 });
