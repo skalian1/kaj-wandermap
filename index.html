@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderMap: Travel Diary</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>WanderMap</h1>
+        <nav>
+            <button id="nav-dashboard">Dashboard</button>
+            <button id="nav-new-trip">+ New Trip</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="view-dashboard" class="view active">
+            <h2>My Travels</h2>
+            <div id="map-container">
+                <p>Map placeholder</p>
+            </div>
+            <aside id="trip-list">
+                <p>No trips recorded yet.</p>
+            </aside>
+        </section>
+
+        <section id="view-form" class="view" style="display: none;">
+            <h2>Log a New Trip</h2>
+            </section>
+
+        <article id="view-detail" class="view" style="display: none;">
+            <h2 id="detail-title">Trip Title</h2>
+            </article>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
