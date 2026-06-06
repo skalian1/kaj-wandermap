@@ -18,20 +18,59 @@
     <main>
         <section id="view-dashboard" class="view active">
             <h2>My Travels</h2>
-            <div id="map-container">
-                <p>Map placeholder</p>
+            <div class="dashboard-layout">
+                <div id="map-container">
+                    <div class="map-placeholder">Map will be rendered here</div>
+                </div>
+                <aside id="trip-list">
+                    <h3>Recent Trips</h3>
+                    <ul id="trips-ul">
+                        <li>No trips recorded yet.</li>
+                    </ul>
+                </aside>
             </div>
-            <aside id="trip-list">
-                <p>No trips recorded yet.</p>
-            </aside>
         </section>
 
-        <section id="view-form" class="view" style="display: none;">
+        <section id="view-form" class="view">
             <h2>Log a New Trip</h2>
+            <form id="new-trip-form">
+                <div class="form-group">
+                    <label for="trip-title">Destination:</label>
+                    <input type="text" id="trip-title" name="trip-title" required autofocus placeholder="e.g., Cesky Krumlov">
+                </div>
+                
+                <div class="form-group">
+                    <label for="trip-date">Date:</label>
+                    <input type="date" id="trip-date" name="trip-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trip-notes">Notes:</label>
+                    <textarea id="trip-notes" name="trip-notes" rows="4" placeholder="What did you experience?"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" id="btn-get-location">Get My Location</button>
+                    <input type="hidden" id="trip-lat" name="trip-lat">
+                    <input type="hidden" id="trip-lng" name="trip-lng">
+                    
+                    <button type="submit" id="btn-save-trip">Save Trip</button>
+                </div>
+            </form>
         </section>
 
-        <article id="view-detail" class="view" style="display: none;">
-            <h2 id="detail-title">Trip Title</h2>
+        <article id="view-detail" class="view">
+            <header>
+                <h2 id="detail-title">Trip Title</h2>
+                <p id="detail-date" class="meta-info">Date</p>
+            </header>
+            <div id="detail-content">
+                <p id="detail-notes">Trip notes will appear here.</p>
+                <p id="detail-location">Coordinates: <span id="detail-coords">Unknown</span></p>
+            </div>
+            <footer>
+                <button id="btn-back-dashboard">Back to Dashboard</button>
+            </footer>
         </article>
     </main>
 

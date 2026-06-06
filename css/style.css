@@ -1,4 +1,4 @@
-/* Basic CSS reset */
+/* Basic reset to ensure consistent rendering across browsers */
 * {
     margin: 0;
     padding: 0;
@@ -9,17 +9,19 @@
 :root {
     --primary-color: #2c3e50;
     --secondary-color: #27ae60;
-    --background-color: #f4f4f9;
+    --bg-color: #f4f4f9;
     --text-color: #333;
+    --border-radius: 8px;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: var(--background-color);
+    background-color: var(--bg-color);
     color: var(--text-color);
-    line-height: 1.6;
 }
 
+/* REQUIREMENT: Nested CSS */
+/* We nest 'nav' inside 'header', and 'button' inside 'nav' */
 header {
     background-color: var(--primary-color);
     color: white;
@@ -27,23 +29,199 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
 
-header button {
-    background-color: var(--secondary-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    margin-left: 0.5rem;
-    cursor: pointer;
-    border-radius: 4px;
+    nav {
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    }
 }
 
 main {
     padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Base class for our SPA views */
+/* Dashboard layout using Flexbox */
+.dashboard-layout {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+
+    #map-container {
+        flex: 2;
+        background-color: #e0e0e0;
+        min-height: 500px;
+        border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #777;
+    }
+
+    aside {
+        flex: 1;
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+}
+
+/* REQUIREMENT: Advanced Selectors */
+#trips-ul {
+    list-style-type: none;
+    margin-top: 1rem;
+
+    li {
+        padding: 1rem;
+        border-bottom: 1px solid #ddd;
+        
+        /* Pseudo-class advanced selector: zebra striping for list items */
+        &:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        &:hover {
+            background-color: #f1f2f6;
+            cursor: pointer;
+        }
+    }
+}
+
+/* Styling the form with advanced selectors and nesting */
+form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin-top: 1rem;
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        
+        /* Direct child combinator selector */
+        > label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        /* Attribute selectors for specific input types */
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Advanced selector: attribute targeting */
+        button[type="button"] {
+            background-color: #7f8c8d;
+        }
+
+        button[type="submit"] {
+            background-color: var(--secondary-color);
+        }
+    }
+}
+
+/* =========================================
+   REQUIREMENT: Media Queries (Responsiveness)
+   ========================================= */
+
+/* Target devices with screen width of 768px or smaller (tablets and mobiles) */
+@media screen and (max-width: 768px) {
+    
+    header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    main {
+        /* Reduce padding to save screen space on mobile */
+        padding: 1rem;
+    }
+
+    /* Stack map and trip list vertically */
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .dashboard-layout #map-container {
+        /* Reduce map height on mobile devices so the list is reachable */
+        min-height: 300px;
+    }
+
+    /* Adjust form spacing for smaller screens */
+    form {
+        padding: 1.5rem 1rem;
+        
+        .form-actions {
+            flex-direction: column;
+            gap: 1rem;
+            
+            button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+/* =========================================
+   REQUIREMENT: CSS3 Transitions/Animations
+   ========================================= */
+
+/* Hide all views by default */
 .view {
-    /* Later we will use CSS transitions here */
+    display: none;
+}
+
+/* When a view has the 'active' class, display it and run the animation */
+.view.active {
+    display: block;
+    /* animation: name duration timing-function fill-mode */
+    animation: fadeInView 0.5s ease-out forwards;
+}
+
+/* Define the keyframes for smooth fade-in and slide-up effect */
+@keyframes fadeInView {
+    0% {
+        opacity: 0;
+        /* Start slightly below its final position */
+        transform: translateY(15px); 
+    }
+    100% {
+        opacity: 1;
+        /* End exactly at its normal position */
+        transform: translateY(0);    
+    }
 }
