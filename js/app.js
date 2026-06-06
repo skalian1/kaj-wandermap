@@ -2,27 +2,37 @@
  * Main application entry point.
  */
 
-// Import the namespace containing our Trip model
 import { WanderMap } from './models/Trip.js';
+import { StorageService } from './services/StorageService.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("WanderMap: Modular architecture initialized.");
     
-    // TEST: Let's create a dummy trip to verify our OOP implementation works
-    const testTrip = new WanderMap.Models.Trip(
-        "Dublin Weekend", 
-        "2026-02-08", 
-        "Visiting historical sites and Vikings.", 
-        53.349805, 
-        -6.26031
-    );
+    // TEST STORAGE SERVICE
+    // 1. Check what is currently in the storage
+    let myTrips = StorageService.getAllTrips();
+    console.log("Loaded trips at startup:", myTrips);
 
-    console.log("Test Trip created:", testTrip);
-    console.log("Formatted Date test:", testTrip.getFormattedDate());
-    console.log("Has coordinates?", testTrip.hasCoordinates());
+    // 2. If the storage is empty, let's create and save a dummy trip
+    if (myTrips.length === 0) {
+        const testTrip = new WanderMap.Models.Trip(
+            "Dublin Weekend", 
+            "2026-02-08", 
+            "Visiting historical sites and Vikings.", 
+            53.349805, 
+            -6.26031
+        );
+        
+        console.log("Saving test trip...");
+        StorageService.saveTrip(testTrip);
+        
+        // Reload to verify it was saved
+        myTrips = StorageService.getAllTrips();
+        console.log("Trips after saving:", myTrips);
+    }
 
-    // Future logic:
-    // 1. Initialize StorageService
-    // 2. Initialize MapView
-    // 3. Bind navigation events
+    // Verify prototype methods still work after reloading from JSON
+    if (myTrips.length > 0) {
+        console.log("Formatted date of the first trip:", myTrips[0].getFormattedDate());
+    }
 });
