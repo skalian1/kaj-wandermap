@@ -55,6 +55,11 @@
                     <label for="trip-notes">Notes:</label>
                     <textarea id="trip-notes" name="trip-notes" rows="4" placeholder="What did you experience?"></textarea>
                 </div>
+
+                <div class="form-group">
+                    <label for="trip-audio">Soundtrack URL (optional):</label>
+                    <input type="text" id="trip-audio" name="trip-audio" placeholder="https://example.com/song.mp3">
+                </div>
                 
                 <div class="form-actions">
                     <button type="button" id="btn-get-location">Get My Location</button>
@@ -75,6 +80,12 @@
             <div id="detail-content">
                 <p id="detail-notes">Trip notes will appear here.</p>
                 <p id="detail-location">Coordinates: <span id="detail-coords">Unknown</span></p>
+                
+                <div class="audio-player-container" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">Trip Soundtrack:</p>
+                    <audio id="trip-audio-element" preload="none"></audio>
+                    <button id="btn-play-audio" style="padding: 0.6rem 1.2rem; background-color: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer;">▶ Play Soundtrack</button>
+                </div>
             </div>
             <footer>
                 <button id="btn-back-dashboard">Back to Dashboard</button>

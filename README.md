@@ -7,7 +7,7 @@ WanderMap is an interactive Single Page Application (SPA) designed as a personal
 **Repository URL:** [https://github.com/skalian1/kaj-wandermap]
 
 ## Architecture
-The application is built using vanilla web technologies (HTML5, CSS3, JavaScript ES6+) without any heavy frameworks (like React or Angular) to demonstrate a deep understanding of core web APIs. It utilizes a modular architecture dividing the logic into Models, Views, and Services to prevent spaghetti code.
+The application is built using vanilla web technologies (HTML5, CSS3, JavaScript ES6+) without any heavy frameworks (like React or Angular). It utilizes a modular architecture dividing the logic into Models, Views, and Services to prevent spaghetti code.
 
 ---
 

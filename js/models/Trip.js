@@ -9,13 +9,14 @@ export const WanderMap = {
 
 // 2. Constructor Function
 // This acts as a blueprint for creating new trip objects
-WanderMap.Models.Trip = function(title, date, notes, lat, lng, rating = 0) {
+WanderMap.Models.Trip = function(title, date, notes, lat, lng, rating = 0, audioUrl = '') {
     // Generate a simple unique ID using current timestamp
     this.id = Date.now().toString(); 
     this.title = title;
     this.date = date;
     this.notes = notes;
     this.rating = rating;
+    this.audioUrl = audioUrl;
     this.coords = {
         lat: (lat !== null && lat !== undefined && lat !== '') ? parseFloat(lat) : null,
         lng: (lng !== null && lng !== undefined && lng !== '') ? parseFloat(lng) : null

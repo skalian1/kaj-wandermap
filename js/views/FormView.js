@@ -60,10 +60,11 @@ export const FormView = {
             const notes = document.getElementById('trip-notes').value;
             const ratingElement = document.getElementById('trip-rating');
             const rating = ratingElement ? ratingElement.value : 0;
+            const audioUrl = document.getElementById('trip-audio').value;
             const lat = document.getElementById('trip-lat').value || null;
             const lng = document.getElementById('trip-lng').value || null;
 
-            const newTrip = new WanderMap.Models.Trip(title, date, notes, lat, lng, rating);
+            const newTrip = new WanderMap.Models.Trip(title, date, notes, lat, lng, rating, audioUrl);
             StorageService.saveTrip(newTrip);
 
             form.reset();

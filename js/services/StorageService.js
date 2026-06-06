@@ -30,7 +30,9 @@ export const StorageService = {
                 tripData.date,
                 tripData.notes,
                 tripData.coords.lat,
-                tripData.coords.lng
+                tripData.coords.lng,
+                tripData.rating,
+                tripData.audioUrl
             );
             // We must explicitly restore the original ID, otherwise the constructor makes a new one
             trip.id = tripData.id; 
