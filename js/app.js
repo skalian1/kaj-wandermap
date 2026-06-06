@@ -1,13 +1,16 @@
 /**
  * Main application entry point.
- * We are using ES6 modules (type="module" in HTML).
  */
+
+import { FormView } from './views/FormView.js';
+import { DashboardView } from './views/DashboardView.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("WanderMap: Modular architecture initialized.");
     
-    // Future logic:
-    // 1. Initialize StorageService
-    // 2. Initialize MapView
-    // 3. Bind navigation events
+    // Initialize views
+    FormView.init();
+    
+    // Render initial data
+    DashboardView.render();
 });
