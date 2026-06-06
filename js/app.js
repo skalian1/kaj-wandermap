@@ -3,10 +3,14 @@
  */
 
 import { FormView } from './views/FormView.js';
+import { DashboardView } from './views/DashboardView.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("WanderMap: Modular architecture initialized.");
     
-    // Initialize the form logic
+    // Initialize views
     FormView.init();
+    
+    // Render initial data
+    DashboardView.render();
 });
