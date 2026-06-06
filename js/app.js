@@ -6,6 +6,7 @@ import { FormView } from './views/FormView.js';
 import { DashboardView } from './views/DashboardView.js';
 import { Router } from './services/Router.js';
 import { MapView } from './views/MapView.js';
+import { DetailView } from './views/DetailView.js';
 import { StarRating } from './components/StarRating.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize views and navigation
     FormView.init();
+    DetailView.init();
     DashboardView.render();
     
     // Initialize the map
