@@ -1,24 +1,65 @@
 # WanderMap: Personal Travel Diary
 
-## Project Objective
-WanderMap is a Single Page Application (SPA) designed as an interactive web diary for travelers. It allows users to intuitively log visited locations, create a personal memory map, and easily browse past trips. The application provides a seamless experience on a single screen without continuous reloading and is fully responsive for both desktop and mobile use.
+## Project Overview
+WanderMap is an interactive Single Page Application (SPA) designed as a personal travel diary. It allows users to seamlessly log visited locations, capture geographical coordinates, write notes, assign star ratings, and view their travels on an interactive map.
 
-## Application Structure & Features
-The interface is divided into three main views with smooth transitions:
-1. **Dashboard (Main Overview):** Displays an interactive map with pins of past trips alongside a list of visited locations.
-2. **Trip Detail:** A dedicated page for a specific trip, showing saved notes, ratings, and media.
-3. **New Location Entry:** A form for logging a new trip.
+**Live Demo:** [https://skalian1.github.io/kaj-wandermap/]
+**Repository URL:** [https://github.com/skalian1/kaj-wandermap]
 
-### Key Functionalities
-- **Adding Locations:** Captures GPS location via Geolocation API, along with date, notes, and personal ratings.
-- **Interactive Map:** Visually represents visited locations.
-- **Local Data Storage:** All entries are saved directly in the browser's LocalStorage.
-- **Responsive Design:** Adapts layout dynamically based on device screen size.
+## Architecture
+The application is built using vanilla web technologies (HTML5, CSS3, JavaScript ES6+) without any heavy frameworks (like React or Angular) to demonstrate a deep understanding of core web APIs. It utilizes a modular architecture dividing the logic into Models, Views, and Services to prevent spaghetti code.
 
-## Technologies Used
-- HTML5
-- CSS3 (Transitions, Media Queries, Nested CSS)
-- Vanilla JavaScript (ES6+, OOP, History API)
+---
 
-## How to Run
-Since the application uses LocalStorage and client-side routing, simply open `index.html` in any modern web browser, or use a local development server (e.g., Live Server extension in VS Code) for the best experience.
+## Features & Limitations
+
+### Core Functionality
+* **Trip Logging:** Users can create new trip records containing a title, date, textual notes, and a 1-5 star rating.
+* **Geolocation:** One-click fetching of the user's current GPS coordinates using the browser's Geolocation API.
+* **Interactive Map:** Trips with valid coordinates are automatically plotted as clickable pins on an embedded Leaflet map (OpenStreetMap).
+* **Trip Dashboard & Details:** Users can view a list of all past trips and click on any entry (or map pin) to view a detailed, read-only summary of the trip.
+* **Persistent Storage:** All data is saved automatically to the browser's LocalStorage.
+* **SPA Navigation:** Seamless transitions between views (Dashboard, Form, Detail) using the History API, fully supporting browser Back/Forward buttons.
+
+### Known Limitations
+* **Local Data Only:** Data is bound to the specific browser and device. There is no backend synchronization or cloud backup.
+* **No Geocoding:** Users cannot search for a destination by address. Location is obtained exclusively via GPS or left empty.
+* **Map Pin Overlap:** Multiple trips recorded at the exact same GPS coordinates will render pins on top of each other (no marker clustering implemented).
+* **No Media Uploads:** The application does not support uploading photos or videos for trips.
+
+---
+
+## Course Requirements Mapping (KAJ)
+
+The following table explicitly maps the KAJ course requirements to their implementation status within this project.
+
+| Category | Requirement | Status | Implementation Details / Location |
+| :--- | :--- | :--- | :--- |
+| **HTML5** | HTML5 Validity | ✅ Implemented | Valid `<!DOCTYPE html>` structure (`index.html`). |
+| **HTML5** | Semantic Tags | ✅ Implemented | Used `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>` (`index.html`). |
+| **HTML5** | SVG / Canvas Graphics | ❌ Not Implemented | - |
+| **HTML5** | Audio / Video Media | ❌ Not Implemented | - |
+| **HTML5** | Form Elements | ✅ Implemented | Native validation (`required`), `autofocus`, `placeholder`, `type="date"` (`index.html`). |
+| **CSS3** | Advanced Selectors | ✅ Implemented | `nth-child(even)`, direct child `> label`, attribute selectors (`css/style.css`). |
+| **CSS3** | 2D/3D Transformations | ✅ Implemented | Hover states use `transform: translateX` and `translateY` (`css/style.css`). |
+| **CSS3** | Transitions / Animations | ✅ Implemented | `@keyframes fadeInView` and smooth hover transitions (`css/style.css`). |
+| **CSS3** | Media Queries | ✅ Implemented | Responsive breakpoints at `992px` and `768px` (`css/style.css`). |
+| **CSS3** | Nested CSS | ✅ Implemented | Native CSS nesting used globally (`css/style.css`). |
+| **JavaScript** | OOP Approach | ✅ Implemented | Namespace `WanderMap.Models` and prototypal inheritance (`js/models/Trip.js`). |
+| **JavaScript** | JS Framework/Library | ❌ Not Implemented | Vanilla JS used for core logic (Leaflet used only for maps, not UI rendering). |
+| **JavaScript** | Advanced JS APIs | ✅ Implemented | LocalStorage API (`StorageService.js`) and Geolocation API (`FormView.js`). |
+| **JavaScript** | Functional History | ✅ Implemented | History API (`pushState`, `popstate`) used for SPA routing (`js/services/Router.js`). |
+| **JavaScript** | Media API Control | ❌ Not Implemented | - |
+| **JavaScript** | Offline Application | ❌ Not Implemented | Data persists locally, but no Service Workers/Manifest for true offline capability. |
+| **JavaScript** | SVG Manipulation via JS | ❌ Not Implemented | - |
+| **JavaScript** | Web Component | ✅ Implemented | Custom `<star-rating>` element utilizing Shadow DOM (`js/components/StarRating.js`). |
+| **Other** | Completeness | ✅ Implemented | Fully functional SPA addressing the main objective. |
+| **Other** | Aesthetics | ✅ Implemented | Unified design system, CSS variables, consistent typography and shadows. |
+
+---
+
+## How to Run Locally
+1. Clone the repository.
+2. No build tools or Node.js are required.
+3. Because the application utilizes ES6 Modules (`type="module"`) and LocalStorage, it must be run via a local web server (opening the file directly via `file://` protocol will cause CORS errors in modern browsers).
+4. Use an extension like **Live Server** in VS Code, or run `npx serve` / `python -m http.server` in the project directory.
