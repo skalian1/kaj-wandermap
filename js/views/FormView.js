@@ -8,6 +8,46 @@ export const FormView = {
         const form = document.getElementById('new-trip-form');
         if (!form) return;
 
+        // --- Geolocation Logic ---
+        const btnLocation = document.getElementById('btn-get-location');
+        if (btnLocation) {
+            btnLocation.addEventListener('click', () => {
+                // Check if browser supports Geolocation API
+                if (!navigator.geolocation) {
+                    alert('Geolocation is not supported by your browser.');
+                    return;
+                }
+
+                // Provide visual feedback while loading
+                const originalText = btnLocation.innerText;
+                btnLocation.innerText = 'Locating...';
+                btnLocation.disabled = true;
+
+                // Call the Geolocation API
+                navigator.geolocation.getCurrentPosition(
+                    // Success callback
+                    (position) => {
+                        // Store coordinates in hidden input fields
+                        document.getElementById('trip-lat').value = position.coords.latitude;
+                        document.getElementById('trip-lng').value = position.coords.longitude;
+                        
+                        // Update UI to show success
+                        btnLocation.innerText = 'Location Acquired!';
+                        btnLocation.style.backgroundColor = '#27ae60'; // Green confirmation
+                    },
+                    // Error callback
+                    (error) => {
+                        console.error('Error obtaining location:', error);
+                        alert('Unable to retrieve your location. Check your browser permissions.');
+                        
+                        // Revert button state
+                        btnLocation.innerText = originalText;
+                        btnLocation.disabled = false;
+                    }
+                );
+            });
+        }
+
         // Listen for the form submission event
         form.addEventListener('submit', (event) => {
             // CRITICAL: Prevent the default behavior (which is a page reload)
@@ -31,7 +71,14 @@ export const FormView = {
             // 4. Reset the form fields for the next entry
             form.reset();
 
-            // 5. Return focus to the first input field programmatically
+            // 5. Reset the location button to its original state
+            if (btnLocation) {
+                btnLocation.innerText = 'Get My Location';
+                btnLocation.style.backgroundColor = '';
+                btnLocation.disabled = false;
+            }
+
+            // 6. Return focus to the first input field programmatically
             document.getElementById('trip-title').focus();
 
             // Temporary user feedback
