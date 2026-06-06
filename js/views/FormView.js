@@ -1,4 +1,7 @@
-// js/views/FormView.js
+/**
+ * @fileoverview View controller for handling the new trip creation form.
+ * Manages form submission, Geolocation API integration, and user feedback.
+ */
 
 import { WanderMap } from '../models/Trip.js';
 import { StorageService } from '../services/StorageService.js';
@@ -6,44 +9,43 @@ import { DashboardView } from './DashboardView.js';
 import { Router } from '../services/Router.js';
 import { MapView } from './MapView.js';
 
+/**
+ * View module responsible for the trip data entry form.
+ * @namespace
+ */
 export const FormView = {
+    /**
+     * Initializes form event listeners, including geolocation requests and submit handling.
+     */
     init: function() {
         const form = document.getElementById('new-trip-form');
         if (!form) return;
 
-        // --- Geolocation Logic ---
         const btnLocation = document.getElementById('btn-get-location');
+        
         if (btnLocation) {
             btnLocation.addEventListener('click', () => {
-                // Check if browser supports Geolocation API
                 if (!navigator.geolocation) {
                     alert('Geolocation is not supported by your browser.');
                     return;
                 }
 
-                // Provide visual feedback while loading
                 const originalText = btnLocation.innerText;
                 btnLocation.innerText = 'Locating...';
                 btnLocation.disabled = true;
 
-                // Call the Geolocation API
                 navigator.geolocation.getCurrentPosition(
-                    // Success callback
                     (position) => {
-                        // Store coordinates in hidden input fields
                         document.getElementById('trip-lat').value = position.coords.latitude;
                         document.getElementById('trip-lng').value = position.coords.longitude;
                         
-                        // Update UI to show success
                         btnLocation.innerText = 'Location Acquired!';
-                        btnLocation.style.backgroundColor = '#27ae60'; // Green confirmation
+                        btnLocation.style.backgroundColor = '#27ae60';
                     },
-                    // Error callback
                     (error) => {
                         console.error('Error obtaining location:', error);
                         alert('Unable to retrieve your location. Check your browser permissions.');
                         
-                        // Revert button state
                         btnLocation.innerText = originalText;
                         btnLocation.disabled = false;
                     }
@@ -51,7 +53,6 @@ export const FormView = {
             });
         }
 
-        // Listen for the form submission event
         form.addEventListener('submit', (event) => {
             event.preventDefault();
 
@@ -67,9 +68,12 @@ export const FormView = {
             const newTrip = new WanderMap.Models.Trip(title, date, notes, lat, lng, rating, audioUrl);
             StorageService.saveTrip(newTrip);
 
+            // Reset form state and UI elements
             form.reset();
 
-            if (ratingElement) ratingElement.value = 0;
+            if (ratingElement) {
+                ratingElement.value = 0;
+            }
             
             if (btnLocation) {
                 btnLocation.innerText = 'Get My Location';
@@ -79,20 +83,16 @@ export const FormView = {
 
             document.getElementById('trip-title').focus();
             
-            // Update the dashboard list immediately after saving
+            // Refresh dependent views
             DashboardView.render();
-
-            // Update map pins immediately after saving a new trip
             MapView.renderPins();
 
+            // Trigger non-blocking toast notification
             const toast = document.getElementById('toast-notification');
             if (toast) {
-                // Dynamically inject the destination title into the feedback string
                 toast.textContent = `Trip to "${title}" successfully saved!`;
-                // Add the class to trigger CSS transition slide up
                 toast.classList.add('show');
 
-                // Automatically hide the toast after 3 seconds using asynchronous Web API
                 setTimeout(() => {
                     toast.classList.remove('show');
                 }, 3000);

@@ -1,35 +1,46 @@
-// js/views/DetailView.js
+/**
+ * @fileoverview View controller for rendering specific trip details and managing the Media API.
+ */
 
 import { StorageService } from '../services/StorageService.js';
 
+/**
+ * View module responsible for displaying trip details and handling media playback.
+ * @namespace
+ */
 export const DetailView = {
+    /**
+     * Initializes static event listeners for the detail view, including
+     * navigation and audio playback controls.
+     */
     init: function() {
-        // Setup the back button to simply clear the hash, returning to the dashboard
         const backBtn = document.getElementById('btn-back-dashboard');
+        
         if (backBtn) {
             backBtn.addEventListener('click', () => {
-                // Pause audio when leaving the detail view
                 const audioEl = document.getElementById('trip-audio-element');
+                
+                // Stop audio playback before navigating away from the view
                 if (audioEl && !audioEl.paused) {
                     audioEl.pause();
                 }
+                
                 window.location.hash = '';
             });
         }
 
-        // JS Media API Control
         const audioBtn = document.getElementById('btn-play-audio');
         const audioEl = document.getElementById('trip-audio-element');
 
         if (audioBtn && audioEl) {
             audioBtn.addEventListener('click', () => {
-                // Check the paused property of the HTMLMediaElement
                 if (audioEl.paused) {
-                    // Play returns a Promise in modern browsers
+                    // Playback is asynchronous and returns a Promise in modern browsers
                     audioEl.play().then(() => {
                         audioBtn.innerHTML = '⏸ Pause Soundtrack';
                     }).catch(err => {
                         console.error("Playback failed:", err);
+                        // Retaining the alert here strictly as an error handler for failed media
                         alert("Could not play the audio file.");
                     });
                 } else {
@@ -38,16 +49,18 @@ export const DetailView = {
                 }
             });
 
-            // Automatically reset button text when audio finishes playing
             audioEl.addEventListener('ended', () => {
                 audioBtn.innerHTML = '▶ Play Soundtrack';
             });
         }
     },
 
+    /**
+     * Populates the detail view with the specific data of the selected trip.
+     * @param {string} tripId - The unique identifier of the trip to display.
+     */
     render: function(tripId) {
         const trips = StorageService.getAllTrips();
-        // Find the specific trip by its ID
         const trip = trips.find(t => t.id === tripId);
 
         if (!trip) {
@@ -55,7 +68,6 @@ export const DetailView = {
             return;
         }
 
-        // Populate standard DOM elements
         document.getElementById('detail-title').textContent = trip.title;
         document.getElementById('detail-date').textContent = trip.getFormattedDate();
         
@@ -69,22 +81,18 @@ export const DetailView = {
             coordsEl.textContent = 'Location not recorded.';
         }
 
-        // Set the rating on our custom Web Component
         const ratingEl = document.getElementById('detail-rating');
         if (ratingEl) {
             ratingEl.value = trip.rating || 0;
         }
 
-        // NEW: Setup audio source
         const audioEl = document.getElementById('trip-audio-element');
         const audioBtn = document.getElementById('btn-play-audio');
         
         if (audioEl && audioBtn) {
-            // Use user's URL or fallback to a default free nature sound
             const defaultAudio = 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3';
             audioEl.src = trip.audioUrl ? trip.audioUrl : defaultAudio;
             
-            // Reset button state
             audioBtn.innerHTML = '▶ Play Soundtrack';
         }
     }
